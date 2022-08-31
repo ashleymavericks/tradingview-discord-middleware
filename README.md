@@ -19,7 +19,7 @@ All of the below mentioned options provide an amazing free tier to begin with:
 2. Deployment platforms like [pythonanywhere](https://www.pythonanywhere.com) or [fly.io](https://fly.io/)
 ### Keep the service awake on repl.it
 ```
-Not a preferred way for 24/7 hosting, even with the below hack, downtime is roughly around 15%.
+Not a preferred way for 24/7 hosting, even with the below mentioned hack - downtime is roughly around 15%.
 ```
 Generally, while using a free tier of services like [repl.it](http://repl.it) and [heroku](https://heroku.com) they tend to sleep the service in case of inactivity, to overcome that we will be using two things:
 
