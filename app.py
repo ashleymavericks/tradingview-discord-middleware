@@ -1,7 +1,11 @@
 import os
 import requests
 import keep_alive
+from dotenv import load_dotenv
 from flask import Flask, request, abort
+
+# take environment variables from .env
+load_dotenv()
 
 # create Flask object called app
 app = Flask(__name__)
@@ -24,4 +28,4 @@ def webhook():
         abort(400)
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=81)

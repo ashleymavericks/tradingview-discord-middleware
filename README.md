@@ -8,24 +8,37 @@ A middleware for sending tradingview webhook alerts to a discord channel without
 </div>
 
 ***
-### Requirements to keep the service awake
+
+### Problem it is solving
+Default    |  Required
+:-------------------------:|:-------------------------:
+![image info](./img/default_message_format.jpg)  |  ![image info](./img/required_json_format.jpg)
+### Recommended Web Hosting options
+All of the below mentioned options provide an amazing free tier to begin with:
+1. Any cheap VPS or cloud providers compute instances like AWS EC2 or Oracle ARM
+2. Deployment platforms like [pythonanywhere](https://www.pythonanywhere.com) or [fly.io](https://fly.io/)
+### Keep the service awake on repl.it
+```
+Not a preferred way for 24/7 hosting, even with the below hack, downtime is roughly around 15%.
+```
 Generally, while using a free tier of services like [repl.it](http://repl.it) and [heroku](https://heroku.com) they tend to sleep the service in case of inactivity, to overcome that we will be using two things:
 
 - First, the [keep_alive.py](./keep_alive.py) module, using multi-threading we initiate another flask app
 - Second, a website monitoring or pinger services like [Freshping](https://freshping.io) which will keep our service awake by sending constant GET request to the root route.
-### Problem it solving
-Default    |  Required
-:-------------------------:|:-------------------------:
-![image info](./img/default_message_format.jpg)  |  ![image info](./img/required_json_format.jpg)
 
 ### Installation
 ```
 pipenv install
 ```
+or
+
+```
+pip -r requirements.txt
+```
 
 ### Usage
 ```
-python main.py
+python app.py
 ```
 
 ### License
