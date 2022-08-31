@@ -9,11 +9,13 @@ A middleware for sending tradingview webhook alerts to a discord channel without
 
 ***
 
-### Problem it is solving
+## Problem it is solving
 Default    |  Required
 :-------------------------:|:-------------------------:
 ![image info](./img/default_message_format.jpg)  |  ![image info](./img/required_json_format.jpg)
-### Recommended Web Hosting options
+
+## Web Hosting guide
+### Recommended web hosting options
 All of the below mentioned options provide an amazing free tier to begin with:
 1. Any cheap VPS or cloud providers compute instances like AWS EC2 or Oracle ARM
 2. Deployment platforms like [pythonanywhere](https://www.pythonanywhere.com) or [fly.io](https://fly.io/)
@@ -26,7 +28,7 @@ Generally, while using a free tier of services like [repl.it](http://repl.it) an
 - First, the [keep_alive.py](./keep_alive.py) module, using multi-threading we initiate another flask app
 - Second, a website monitoring or pinger services like [Freshping](https://freshping.io) which will keep our service awake by sending constant GET request to the root route.
 
-### Installation
+## Installation
 ```
 pipenv install
 ```
@@ -36,10 +38,10 @@ or
 pip -r requirements.txt
 ```
 
-### Usage
+## Usage
 ```
 python app.py
 ```
 
-### License
+## License
 This project is licensed under the MIT license
