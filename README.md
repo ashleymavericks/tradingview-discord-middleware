@@ -20,9 +20,6 @@ All of the below mentioned options provide an amazing free tier to begin with:
 1. Any cheap VPS or cloud providers compute instances like AWS EC2 or Oracle ARM
 2. Deployment platforms like [pythonanywhere](https://www.pythonanywhere.com) or [fly.io](https://fly.io/)
 ### Keep the service awake on repl.it
-```
-Not a preferred way for 24/7 hosting, even with the below mentioned hack sometimes the downtime is roughly around 4-5% per daily basis
-```
 Generally, while using a free tier of services like [repl.it](http://repl.it) and [heroku](https://heroku.com) they tend to sleep the service in case of inactivity, to overcome that we will be using two things:
 
 - First, the [keep_alive.py](./keep_alive.py) module, using multi-threading we initiate another flask app
