@@ -1,4 +1,3 @@
-from ast import main
 import os
 from threading import main_thread
 import requests
