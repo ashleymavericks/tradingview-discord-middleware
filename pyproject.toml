@@ -1,0 +1,21 @@
+[project]
+name = "tradingview-discord-middleware"
+version = "1.0.0"
+description = "FastAPI middleware that forwards TradingView alerts to Discord webhooks."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115.0",
+    "httpx>=0.27.0",
+    "pydantic-settings>=2.5.0",
+    "uvicorn[standard]>=0.30.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

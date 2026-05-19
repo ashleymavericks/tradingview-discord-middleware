@@ -1,44 +1,138 @@
 <div align="center">
-<h1 align="center">Tradingview Discord Webhook Middleware</h1>
+<h1 align="center">TradingView Discord Webhook Middleware</h1>
 <br />
 <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-blue.svg" /><br>
 
 <br>
-A middleware for sending tradingview webhook alerts to a discord channel without manually converting the alert message to required JSON format in tradingview alert dialogbox for every individual ticker.
+A FastAPI middleware for forwarding TradingView webhook alerts to a Discord channel without manually converting every TradingView alert message into Discord's required JSON format.
 </div>
 
 ***
 
-## Problem it is solving
+## What it does
+
+TradingView can send alert webhook bodies as plain text. Discord webhooks expect JSON like:
+
+```json
+{"content": "your alert message"}
+```
+
+This service receives the raw TradingView alert body at `POST /webhook`, wraps it as Discord `content`, forwards it to `DISCORD_WEBHOOK_URL`, and returns the original alert text.
+
 Default    |  Required
 :-------------------------:|:-------------------------:
 ![image info](./img/default_message_format.jpg)  |  ![image info](./img/required_json_format.jpg)
 
-## Web Hosting guide
-### Recommended web hosting options
-All of the below mentioned options provide an amazing free tier to begin with:
-1. Any cheap VPS or cloud providers compute instances like AWS EC2 or Oracle ARM
-2. Deployment platforms like [pythonanywhere](https://www.pythonanywhere.com) or [fly.io](https://fly.io/)
-### Keep the service awake on repl.it
-Generally, while using a free tier of services like [repl.it](http://repl.it) and [heroku](https://heroku.com) they tend to sleep the service in case of inactivity, to overcome that we will be using two things:
+## Endpoints
 
-- First, the [keep_alive.py](./keep_alive.py) module, using multi-threading we initiate another flask app
-- Second, a website monitoring or pinger services like [Freshping](https://freshping.io) which will keep our service awake by sending constant GET request to the root route.
+- `GET /` - simple online message.
+- `GET /health` - health check endpoint for Docker/Coolify.
+- `POST /webhook` - TradingView webhook receiver.
 
-## Installation
-```
-pipenv install
-```
-or
+## Configuration
 
-```
-pip -r requirements.txt
+Copy the example environment file and set your Discord webhook URL:
+
+```bash
+cp .env.example .env
 ```
 
-## Usage
+Required environment variables:
+
+```bash
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/your-webhook-id/your-webhook-token
 ```
-python app.py
+
+Optional environment variables:
+
+```bash
+DISCORD_TIMEOUT_SECONDS=10
 ```
+
+## Local development with uv
+
+Install dependencies:
+
+```bash
+uv sync
+```
+
+Run the API:
+
+```bash
+uv run uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+Open:
+
+```text
+http://localhost:8000
+```
+
+Run tests:
+
+```bash
+uv run pytest
+```
+
+## Docker
+
+Build the image:
+
+```bash
+docker build -t tradingview-discord-middleware .
+```
+
+Run it locally:
+
+```bash
+docker run --rm -p 8000:8000 \
+  -e DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/your-webhook-id/your-webhook-token" \
+  tradingview-discord-middleware
+```
+
+Test the middleware:
+
+```bash
+curl -X POST http://localhost:8000/webhook \
+  -H "Content-Type: text/plain" \
+  --data "BTCUSD crossed 70000"
+```
+
+## Deploy on Coolify
+
+Use these steps for a Coolify instance running on your Hetzner server:
+
+1. Push this repository to GitHub, GitLab, or another Git provider connected to Coolify.
+2. In Coolify, create a new resource and choose your Git repository.
+3. Select `Dockerfile` as the build pack/source type.
+4. Set the public port to `8000`.
+5. Add environment variables:
+
+```bash
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/your-webhook-id/your-webhook-token
+DISCORD_TIMEOUT_SECONDS=10
+```
+
+6. Configure the health check path as `/health`.
+7. Deploy the service.
+8. After deployment, copy the public Coolify URL and use this TradingView webhook URL:
+
+```text
+https://your-coolify-domain.example.com/webhook
+```
+
+## TradingView setup
+
+In the TradingView alert dialog:
+
+1. Enable `Webhook URL`.
+2. Paste the deployed `/webhook` URL from Coolify.
+3. Put the alert text you want Discord to receive in the TradingView message box.
+4. Save the alert.
+
+Discord will receive the exact alert text as a webhook message.
 
 ## License
-This project is licensed under the MIT license
+
+This project is licensed under the MIT license.
